@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'corsheaders',
     # Applications MathStudy
     'accounts',
+    'catalog',
 ]
 
 MIDDLEWARE = [
