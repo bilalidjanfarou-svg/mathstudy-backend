@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     # Applications MathStudy
     'accounts',
     'catalog',
+    'support',
 ]
 
 MIDDLEWARE = [
