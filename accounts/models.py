@@ -8,9 +8,15 @@ class User(AbstractUser):
         CREATOR = 'creator', 'Créateur'
         ADMIN = 'admin', 'Administrateur'
 
+    class Plan(models.TextChoices):
+        GRATUITE = 'gratuite', 'Gratuite'
+        ETUDIANT = 'etudiant', 'Étudiant'
+        PREMIUM = 'premium', 'Premium'
+
     email = models.EmailField(unique=True)
     nom_complet = models.CharField(max_length=150, blank=True)
     role = models.CharField(max_length=10, choices=Role.choices, default=Role.STUDENT)
+    plan = models.CharField(max_length=10, choices=Plan.choices, default=Plan.GRATUITE)
     universite = models.CharField(max_length=150, blank=True)
     filiere = models.CharField(max_length=100, blank=True)
     niveau = models.CharField(max_length=30, blank=True)
