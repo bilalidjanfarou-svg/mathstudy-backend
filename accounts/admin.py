@@ -7,8 +7,11 @@ from .models import User
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
-        ('MathStudy', {'fields': ('nom_complet', 'role', 'plan', 'universite', 'filiere', 'niveau')}),
+        (
+            'MathStudy',
+            {'fields': ('nom_complet', 'role', 'plan', 'plan_expire_le', 'universite', 'filiere', 'niveau')},
+        ),
     )
-    list_display = ('email', 'nom_complet', 'role', 'plan', 'universite', 'is_staff')
+    list_display = ('email', 'nom_complet', 'role', 'plan', 'plan_expire_le', 'universite', 'is_staff')
     list_filter = ('role', 'plan', 'universite')
     search_fields = ('email', 'nom_complet')

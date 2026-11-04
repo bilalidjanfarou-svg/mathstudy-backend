@@ -6,12 +6,12 @@ from .models import Chapitre, Contenu, Matiere
 def a_acces_premium(user):
     """Qui peut ouvrir les contenus premium.
 
-    Les créateurs et administrateurs, ainsi que les abonnés Étudiant et Premium.
-    Plus tard, on pourra distinguer plus finement ce que chaque formule débloque.
+    Les créateurs et administrateurs, ainsi que les abonnés Étudiant et Premium
+    dont l'abonnement n'a pas expiré.
     """
     if not (user and user.is_authenticated):
         return False
-    return user.role in ('creator', 'admin') or user.plan in ('etudiant', 'premium')
+    return user.role in ('creator', 'admin') or user.plan_effectif in ('etudiant', 'premium')
 
 
 class ContenuSerializer(serializers.ModelSerializer):

@@ -5,13 +5,15 @@ from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    plan_label = serializers.CharField(source='get_plan_display', read_only=True)
+    plan = serializers.CharField(source='plan_effectif', read_only=True)
+    plan_label = serializers.CharField(source='plan_label_effectif', read_only=True)
 
     class Meta:
         model = User
         fields = [
             'id', 'email', 'nom_complet', 'role',
-            'plan', 'plan_label', 'universite', 'filiere', 'niveau',
+            'plan', 'plan_label', 'plan_expire_le',
+            'universite', 'filiere', 'niveau',
         ]
 
 

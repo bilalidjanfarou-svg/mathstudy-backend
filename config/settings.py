@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'accounts',
     'catalog',
     'support',
+    'payments',
 ]
 
 MIDDLEWARE = [
@@ -96,6 +97,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_THROTTLE_RATES': {
         'assistant': '30/hour',
+        'paiement': '10/hour',
     },
 }
 
@@ -107,3 +109,18 @@ SIMPLE_JWT = {
 # Assistant IA
 ANTHROPIC_API_KEY = config('ANTHROPIC_API_KEY', default='')
 ANTHROPIC_MODEL = config('ANTHROPIC_MODEL', default='claude-haiku-5-5')
+
+# Paiements : 'simulation' (tests, aucun argent) ou 'desactive'
+PAYMENT_MODE = config('PAYMENT_MODE', default='desactive')
+
+
+
+
+
+
+
+
+
+
+
+
