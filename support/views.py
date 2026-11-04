@@ -2,8 +2,10 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView
 
+from .assistant import AssistantIndisponible, repondre
 from .models import Ticket, TicketMessage
 from .serializers import (
     TicketCreateSerializer,
@@ -74,3 +76,51 @@ class TicketMessageCreateView(APIView):
         ticket.statut = Ticket.Statut.REPONDU if request.user.role == 'admin' else Ticket.Statut.OUVERT
         ticket.save()
         return Response(TicketDetailSerializer(ticket_pour(request.user, pk)).data, status=201)
+    
+
+class AssistantView(APIView):
+    """Pose une question à l'assistant IA (30 par heure et par étudiant)."""
+
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'assistant'
+
+    def post(self, request):
+        brut = request.data.get('messages')
+        if not isinstance(brut, list) or not brut:
+            return Response({'detail': 'Aucun message.'}, status=400)
+
+        messages = []
+        for m in brut[-10:]:  # on garde les 10 derniers messages seulement
+            if not isinstance(m, dict):
+                return Response({'detail': 'Format invalide.'}, status=400)
+            role, contenu = m.get('role'), m.get('content')
+            if role not in ('user', 'assistant') or not isinstance(contenu, str) or not contenu.strip():
+                return Response({'detail': 'Message invalide.'}, status=400)
+            contenu = contenu.strip()[:1000]
+            if messages and messages[-1]['role'] == role:
+                messages[-1]['content'] += '\n' + contenu
+            else:
+                messages.append({'role': role, 'content': contenu})
+
+        while messages and messages[0]['role'] == 'assistant':
+            messages.pop(0)
+        if not messages or messages[-1]['role'] != 'user':
+            return Response({'detail': 'La dernière question est manquante.'}, status=400)
+
+        try:
+            texte, agent = repondre(messages, request.user)
+        except AssistantIndisponible:
+            return Response(
+                {'detail': 'L’assistant est indisponible pour le moment.'}, status=503
+            )
+        return Response({'reply': texte, 'suggest_agent': agent})
+
+
+
+
+
+
+
+
+
