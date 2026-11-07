@@ -99,6 +99,8 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'assistant': '30/hour',
         'paiement': '10/hour',
+        'reset': '5/hour',
+        'reset_confirm': '20/hour',
     },
 }
 
@@ -113,6 +115,32 @@ ANTHROPIC_MODEL = config('ANTHROPIC_MODEL', default='claude-haiku-5-5')
 
 # Paiements : 'simulation' (tests, aucun argent) ou 'desactive'
 PAYMENT_MODE = config('PAYMENT_MODE', default='desactive')
+
+# E-mails : en développement, les messages s'affichent dans le terminal
+EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
+EMAIL_HOST = config('EMAIL_HOST', default='')
+EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='LearnX <noreply@learnx.local>')
+
+# Adresse du site (pour construire le lien envoyé par e-mail)
+FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:5173')
+
+# Le lien de réinitialisation est valable 1 heure
+PASSWORD_RESET_TIMEOUT = 60 * 60
+
+
+
+
+
+
+
+
+
+
+
 
 
 
