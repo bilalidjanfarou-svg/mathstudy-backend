@@ -10,6 +10,11 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv())
 
+
+RENDER_HOST = config('RENDER_EXTERNAL_HOSTNAME', default='')
+if RENDER_HOST:
+    ALLOWED_HOSTS.append(RENDER_HOST)
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
