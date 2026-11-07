@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'catalog',
     'support',
     'payments',
+    'progress',
 ]
 
 MIDDLEWARE = [
