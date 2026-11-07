@@ -8,7 +8,7 @@ from .models import User
 class CustomUserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
         (
-            'MathStudy',
+            'LearnX',
             {'fields': ('nom_complet', 'role', 'plan', 'plan_expire_le', 'universite', 'filiere', 'niveau')},
         ),
     )

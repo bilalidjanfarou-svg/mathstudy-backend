@@ -7,7 +7,7 @@ from django.views.static import serve
 
 
 def api_root(request):
-    return JsonResponse({'app': 'MathStudy API', 'status': 'ok'})
+    return JsonResponse({'app': 'LearnX API', 'status': 'ok'})
 
 
 urlpatterns = [
@@ -16,6 +16,7 @@ urlpatterns = [
     path('api/auth/', include('accounts.urls')),
     path('api/support/', include('support.urls')),
     path('api/payments/', include('payments.urls')),
+    path('api/creator/', include('catalog.creator_urls')),
     path('api/', include('catalog.urls')),
 ]
 

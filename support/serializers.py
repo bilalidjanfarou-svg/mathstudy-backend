@@ -13,7 +13,7 @@ class TicketMessageSerializer(serializers.ModelSerializer):
 
     def get_auteur_nom(self, obj):
         if obj.auteur.role == 'admin':
-            return 'Agent MathStudy'
+            return 'Agent LearnX'
         return obj.auteur.nom_complet or obj.auteur.email
 
     def get_du_support(self, obj):

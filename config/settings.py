@@ -18,7 +18,7 @@ INSTALLED_APPS = [
     # Extensions
     'rest_framework',
     'corsheaders',
-    # Applications MathStudy
+    # Applications LearnX
     'accounts',
     'catalog',
     'support',
