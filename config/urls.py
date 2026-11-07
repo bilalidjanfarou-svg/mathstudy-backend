@@ -1,9 +1,8 @@
-from django.conf import settings
 from django.contrib import admin
 from django.http import JsonResponse
-from django.urls import include, path, re_path
-from django.views.decorators.clickjacking import xframe_options_exempt
-from django.views.static import serve
+from django.urls import include, path
+
+from catalog.fichiers import servir_fichier
 
 
 def api_root(request):
@@ -13,6 +12,7 @@ def api_root(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', api_root),
+    path('api/fichiers/<str:token>/', servir_fichier),
     path('api/auth/', include('accounts.urls')),
     path('api/support/', include('support.urls')),
     path('api/payments/', include('payments.urls')),
@@ -21,14 +21,3 @@ urlpatterns = [
     path('api/', include('catalog.creator_urls')),
     path('api/', include('catalog.urls')),
 ]
-
-if settings.DEBUG:
-    # Servir les fichiers envoyés (vidéos, PDF) en développement,
-    # en autorisant leur affichage dans le front React
-    urlpatterns += [
-        re_path(
-            r'^media/(?P<path>.*)$',
-            xframe_options_exempt(serve),
-            {'document_root': settings.MEDIA_ROOT},
-        ),
-    ]

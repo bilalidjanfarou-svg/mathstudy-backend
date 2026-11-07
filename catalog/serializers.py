@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from .models import Chapitre, Contenu, Matiere
 
+from .fichiers import url_fichier
 
 def a_acces_premium(user):
     """Qui peut ouvrir les contenus premium.
@@ -42,7 +43,7 @@ class ContenuSerializer(serializers.ModelSerializer):
         # Un contenu premium n'expose jamais son fichier à quelqu'un sans accès
         if not obj.fichier or not self._acces(obj):
             return None
-        return self.context['request'].build_absolute_uri(obj.fichier.url)
+        return url_fichier(self.context['request'], obj)
 
     def get_createur(self, obj):
         return (obj.createur.nom_complet or None) if obj.createur else None

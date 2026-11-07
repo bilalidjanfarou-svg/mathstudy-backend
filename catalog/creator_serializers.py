@@ -2,6 +2,8 @@ from rest_framework import serializers
 
 from .models import Contenu, Matiere
 
+from .fichiers import url_fichier
+
 EXTENSIONS = {
     'video': ('.mp4', '.webm'),
     'pdf': ('.pdf',),
@@ -62,5 +64,5 @@ class ContenuGestionSerializer(serializers.ModelSerializer):
     def get_fichier(self, obj):
         request = self.context.get('request')
         if obj.fichier and request:
-            return request.build_absolute_uri(obj.fichier.url)
+            return url_fichier(request, obj)
         return None
