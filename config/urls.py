@@ -1,3 +1,4 @@
+from django.conf import settings 
 from django.contrib import admin
 from django.http import JsonResponse
 from django.urls import include, path
@@ -10,6 +11,7 @@ def api_root(request):
 
 
 urlpatterns = [
+    path(settings.ADMIN_URL, admin.site.urls),
     path('admin/', admin.site.urls),
     path('api/', api_root),
     path('api/fichiers/<str:token>/', servir_fichier),

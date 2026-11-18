@@ -134,6 +134,8 @@ REST_FRAMEWORK = {
         'paiement': '10/hour',
         'reset': '5/hour',
         'reset_confirm': '20/hour',
+        'login': '30/hour',
+        'register': '10/hour',
     },
 }
 
@@ -171,3 +173,6 @@ LOGGING = {
     'handlers': {'console': {'class': 'logging.StreamHandler'}},
     'root': {'handlers': ['console'], 'level': 'WARNING'},
 }
+
+# Adresse de l'administration Django : à choisir secrète en production 
+ADMIN_URL = config('ADMIN_URL', default='admin')
