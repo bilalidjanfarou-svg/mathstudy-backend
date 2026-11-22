@@ -174,5 +174,5 @@ LOGGING = {
     'root': {'handlers': ['console'], 'level': 'WARNING'},
 }
 
-# Adresse de l'administration Django : à choisir secrète en production 
-ADMIN_URL = config('ADMIN_URL', default='admin')
+# Adresse de l'administration Django : toujours sous la forme "mot/" (sans / au début, avec / à la fin)
+ADMIN_URL = config('ADMIN_URL', default='admin/').strip('/') + '/'
